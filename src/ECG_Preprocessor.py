@@ -51,7 +51,7 @@ def calculate_rr_intervals(qrs_indices, sampling_rate):
 
 
 
-data_root_dir = "a-large-scale-12-lead-electrocardiogram-database-for-arrhythmia-study-1.0.0/WFDBRecords/"
+data_root_dir = "./data/physionet.org/files/ecg-arrhythmia/one/WFDBRecords"
 
 
 
@@ -80,6 +80,5 @@ def process_all_ecg_files(root_dir):
                     print(f"Error processing file {file}: {e}")
 
 
-
-
-process_all_ecg_files(data_root_dir)
+if __name__ == "__main__":
+    process_all_ecg_files(data_root_dir)
