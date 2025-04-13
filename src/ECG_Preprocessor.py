@@ -1,17 +1,27 @@
 import os
 import scipy.io
 import numpy as np
-from scipy.signal import butter, filtfilt
+from scipy.signal import butter, filtfilt, freqz
 import biosppy.signals.ecg as ecg
 import matplotlib.pyplot as plt
 
 # This is taken from https://medium.com/@shahbaz.gondal588/understanding-ecg-signal-processing-with-python-b9dd4ea68682
 
+def butter_lowpass(cutoff, fs, order=5):
+    nyq = 0.5 * fs
+    normal_cutoff = cutoff / nyq
+    b, a = butter(order, normal_cutoff, btype='low', analog=False, fs=None)
+    return b, a
+
+def butter_lowpass_filter(x, cutoff, fs, order=5):
+    b, a = butter_lowpass(cutoff, fs, order=order)
+    return filtfilt(b, a, x)
+
+
 # The preprocess_signal function filters and 
 # downsamplesthe raw ECG signal to remove noise
 # and reduce computational complexity.
 def preprocess_signal(signal):
-
 
     b, a = butter(4, 40 / (500 / 10), btype='low')
     filtered_signal = filtfilt(b, a, signal, axis=-1)
@@ -32,12 +42,11 @@ def plot_ecg(signal, sampling_rate, title="ECG Signal"):
     plt.xlabel("Time (seconds)")
     plt.ylabel("Amplitude")
     plt.grid(True)
-    plt.show()
+    plt.show()       # comment out to speed
 
 # The detect_qrs_complex function uses BioSPPy to detect QRS
 # complexes in the ECG signal, identifying heartbeats.
 def detect_qrs_complex(signal, sampling_rate):
-
     qrs_indices = ecg.ecg(signal=signal, sampling_rate=sampling_rate, show=False)['rpeaks']
     return qrs_indices
 
