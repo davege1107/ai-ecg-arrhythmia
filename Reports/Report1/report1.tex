@@ -1,0 +1,71 @@
+\documentclass[12pt]{article}
+
+% Metadata
+\title{Diagnosing Arrhythmia with ECG Data using AI Models}
+\author{
+  David Genis, Matthew Flores, Liam Cummings \\
+  \texttt{David\_Genis@student.uml.edu} \\
+  \texttt{Matthew\_Flores@student.uml.edu} \\
+  \texttt{Liam\_Cummings@student.uml.edu}
+}
+\date{}
+
+\newcommand{\secno}{201}
+\newcommand{\timetocomplete}{X hours}
+
+% Packages
+\usepackage[T1]{fontenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{listings}
+\usepackage{subcaption}
+\usepackage{graphicx}
+\usepackage[dvipsnames,table]{xcolor}
+\usepackage{hyperref}
+\usepackage[legalpaper, margin=1in]{geometry}
+\usepackage{enumitem}
+\usepackage{verbatim}
+
+% Settings for portfolio
+\title{Artificial Intelligence \secno: Starter Submission \\ Spring 2025}
+\setcounter{tocdepth}{1}
+
+% Code formatting
+\definecolor{backcolour}{rgb}{0.92,0.92,0.90}
+\lstdefinestyle{cppcode}{
+	language=c++,
+	basicstyle=\ttfamily,
+	commentstyle=\color{Green},
+	tabsize=4,
+	columns=flexible,
+	keepspaces=true,
+	numbers=left,
+	keywordstyle=\color{Blue},
+	stringstyle=\color{Maroon},
+	showstringspaces=false,
+	backgroundcolor=\color{backcolour},
+	frame=single,
+	breaklines=true
+}
+\lstset{style=cppcode}
+
+% Image path
+\graphicspath{ {./figures/} }
+
+\begin{document}
+
+\maketitle
+
+
+\section*{Project Title}
+Diagnosing Arrhythmia with ECG Data using AI Models
+
+\section*{Completed Tasks}
+\begin{itemize}
+    \item Researched common arrhythmia types and ECG signal characteristics
+    \item Downloaded Dataset and preprocessed ECG data
+\end{itemize}
+
+\newpage
+\include{starterreport}
+
+\end{document}
