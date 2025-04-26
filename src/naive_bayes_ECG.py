@@ -1,15 +1,42 @@
 import os
 import numpy as np
 import scipy.io
+from ecgdetectors import Detectors
+from scipy.stats import entropy
+from scipy.fft import fft
+from scipy.signal import butter, filtfilt
 from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import GaussianNB
 from sklearn.metrics import accuracy_score, confusion_matrix
-from ECG_Preprocessor import preprocess_signal  # your provided function
+
+
+def preprocess_signal(signal):
+
+    b, a = butter(4, 40 / (500 / 10), btype='low')
+    filtered_signal = filtfilt(b, a, signal, axis=-1)
+
+    downsampled_signal = filtered_signal[:, ::10] 
+
+    return downsampled_signal
 
 def extract_features(signal, sampling_rate=500):
     # Extract meaningful features
     lead_II = signal[1]
-    rr_intervals = np.diff(np.where(lead_II > np.mean(lead_II))[0]) / sampling_rate
+    #rr_intervals = np.diff(np.where(lead_II > np.mean(lead_II))[0]) / sampling_rate
+    detectors = Detectors(sampling_frequency=sampling_rate)
+    r_peaks = detectors.pan_tompkins_detector(lead_II)
+    
+    rr_intervals = np.diff(r_peaks) / sampling_rate
+
+    if len(rr_intervals) == 0:
+        return np.zeros(4)
+
+
+    print(f"Average RR interval: {np.mean(rr_intervals)} seconds")
+    print(f"Minimum RR interval: {np.min(rr_intervals)} seconds")
+    print(f"Maximum RR interval: {np.max(rr_intervals)} seconds")
+    print("___________________________________________")
+
     return np.array([
         np.mean(rr_intervals),
         np.std(rr_intervals),
@@ -41,6 +68,11 @@ def build_dataset(data_dir):
 
                 signal = preprocess_signal(signal)
                 features = extract_features(signal)
+
+                """lead_II = signal[1]
+                detectors = Detectors(sampling_frequency=500)
+                r_peaks = detectors.pan_tompkins_detector(lead_II)
+                rr_intervals_sec = np.diff(r_peaks) / 500"""
 
                 label = parse_label(hea_path)
 
