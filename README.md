@@ -5,3 +5,8 @@ Made by [David Genis](https://github.com/davege1107), [Matthew Flores](https://g
 
 Installations:
 pip install PyQt6
+pip install py-ecg-detectors
+pip install numpy
+pip install scipy
+pip install matplotlib
+pip install py-ecg-detectors
